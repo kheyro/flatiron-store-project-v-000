@@ -1,8 +1,20 @@
-<nav class="">
-    <ul>
-        <li> <%= link_to "Store Home", store_path %> </li>
-        <% if !!@cart %>
-          <li> <%= link_to "Cart", cart_path(current_cart) %></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Flatiron School Store</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item"> <%= link_to "Store Home", store_path, class: "nav-link" %> </li>
+        <li class="nav-item"> <%= link_to "Categories", categories_path, class: "nav-link" %> </li>
+        <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to "Signed in as #{current_user.email}", user_orders_path(current_user), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Sign out", destroy_user_session_path, class: "nav-link" %></li>
+        <% else %>
+          <li class="nav-item"><%= link_to "sign in", new_user_session_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Sign up", new_user_registration_path, class: "nav-link" %></li>
         <% end %>
+        <li class="nav-item"><%= link_to "Cart", cart_path(current_user.current_cart), class: "nav-link" if current_user && current_user.current_cart %></li>
     </ul>
+  </div>
 </nav>

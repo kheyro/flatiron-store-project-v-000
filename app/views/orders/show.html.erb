@@ -1,5 +1,43 @@
-<% if notice %>
-  <p><%= notice %></p> 
-<% end %>
+<div class="row">
+  <div class="col">
+    <h1>Order #<%= @order.id %></h1>
+  </div>
+</div>
 
-Order Status: <%= @order.status %>
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Quanity</th>
+          <th scope="col">Item Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @order.cart.line_items.each do |line_item| %>
+          <tr>
+            <td><%= link_to line_item.item.title, item_path(line_item.item) %></td>
+            <td><%= display_price(line_item.item.price) %></td>
+            <td>Quantity: <%= line_item.quantity %></td>
+            <td><%= display_price(line_item.quantity * line_item.item.price) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="2"></td>
+          <td>TOTAL</td>
+          <td><strong><%= display_price(@order.cart.total) %></strong></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <%= link_to "Back", user_orders_path(current_user) %>
+  </div>
+</div>
